@@ -11,7 +11,7 @@ Built to pair with a Partiful invite: link the page from the invite description,
 
 Everything lives in [`src/lib/config.ts`](src/lib/config.ts):
 
-- `EVENT`: title, date, your Partiful link, and the note under the header
+- `EVENT`: title, date, and the note under the header
 - `CATEGORIES`: names, emoji, ideas text and `cap` (spots) for each category
 - `TAGS`: dietary tags guests can add
 
@@ -30,8 +30,8 @@ Without Redis env vars, sign-ups live in memory: fine for trying it out, but the
 
 1. Push to GitHub and import the repo in Vercel.
 2. In the Vercel project, open **Storage** and add **Upstash for Redis** (the free tier is plenty). That sets `KV_REST_API_URL` / `KV_REST_API_TOKEN` automatically. `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` also work.
-3. Add `HOST_PIN` as an environment variable.
-4. Deploy. If you want it under your own site, point a subdomain at it (e.g. `friendsgiving.yourdomain.com`) under **Settings → Domains**.
+3. Add environment variables: `HOST_PIN`, and optionally `NEXT_PUBLIC_PARTIFUL_URL` (your Partiful event link, shown as a "Back to Partiful" button). Both stay out of the repo. Changing them needs a redeploy.
+4. Deploy. Keep the deployed URL out of this repo (README, repo description, website field): the repo is public, and anyone with the link can sign up. If you want it under your own site, point a subdomain at it (e.g. `friendsgiving.yourdomain.com`) under **Settings → Domains**.
 
 Production, preview and local dev use separate Redis keys (`fg:<VERCEL_ENV>:*`), so testing never touches the real board.
 

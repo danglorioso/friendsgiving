@@ -10,8 +10,11 @@ export const EVENT = {
   title: "Friendsgiving",
   /** Shown under the title. Leave empty to hide. */
   date: "",
-  /** Your Partiful event link, so guests can hop back to RSVP. Leave empty to hide. */
-  partifulUrl: "",
+  /**
+   * Your Partiful event link, so guests can hop back to RSVP. Set it as the
+   * NEXT_PUBLIC_PARTIFUL_URL env var (not here) so it never lands in the public repo.
+   */
+  partifulUrl: process.env.NEXT_PUBLIC_PARTIFUL_URL ?? "",
   /** A line from the hosts under the header. */
   note: "We've got the turkey. Pick a category, tell us what you're bringing, and your name goes on the board so nobody doubles up.",
 };
