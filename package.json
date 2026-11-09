@@ -1,0 +1,32 @@
+{
+  "name": "friendsgiving",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "vitest run"
+  },
+  "packageManager": "pnpm@10.18.2",
+  "dependencies": {
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "@upstash/redis": "^1.41.0",
+    "geist": "^1.9.2",
+    "next": "16.3.8",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/node": "^20.19.43",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "16.3.8",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^5.9.3",
+    "vitest": "^5.1.0"
+  }
+}

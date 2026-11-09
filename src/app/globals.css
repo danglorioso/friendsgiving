@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f6eee2;
+  --color-card: #fffaf2;
+  --color-ink: #2a1a12;
+  --color-muted: #7a6656;
+  --color-line: #e3d3bd;
+  --color-cranberry: #9b2c2c;
+  --color-cranberry-dark: #7c1f22;
+  --color-squash: #d27a2c;
+  --color-sage: #5f8467;
+  --color-sage-soft: #e3ece2;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+
+  --animate-rise: rise 0.35s ease-out both;
+  --animate-sheet: sheet 0.3s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+  --animate-fade: fade 0.2s ease-out both;
+
+  @keyframes rise {
+    0% { transform: translateY(10px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes sheet {
+    0% { transform: translateY(40px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes fade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  /* A faint paper grain so the page doesn't read as a flat app screen. */
+  background-image: radial-gradient(color-mix(in srgb, var(--color-ink) 5%, transparent) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
