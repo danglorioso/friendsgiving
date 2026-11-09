@@ -14,7 +14,7 @@ type Mode = { kind: "new"; category: string } | { kind: "edit"; signup: Signup }
 
 const POLL_MS = 8000;
 
-export function BoardView({ initial }: { initial: Board }) {
+export function BoardView({ initial, partifulUrl }: { initial: Board; partifulUrl: string }) {
   const [board, setBoard] = useState(initial);
   const [mine, setMine] = useState<Record<string, string>>({});
   const [name, setName] = useState("");
@@ -214,10 +214,10 @@ export function BoardView({ initial }: { initial: Board }) {
         ))}
       </div>
 
-      {EVENT.partifulUrl && (
+      {partifulUrl && (
         <p className="mt-12 text-center text-sm text-muted">
           RSVP and event details are on{" "}
-          <a href={EVENT.partifulUrl} className="font-semibold text-cranberry underline underline-offset-4">
+          <a href={partifulUrl} className="font-semibold text-cranberry underline underline-offset-4">
             Partiful
           </a>
           .
@@ -285,9 +285,9 @@ export function BoardView({ initial }: { initial: Board }) {
             <CopyButton text={rsvpLine(mode.signup)} />
           </div>
           <div className="mt-6 flex flex-col gap-2 sm:flex-row-reverse">
-            {EVENT.partifulUrl ? (
+            {partifulUrl ? (
               <a
-                href={EVENT.partifulUrl}
+                href={partifulUrl}
                 className="flex-1 rounded-full bg-cranberry py-3.5 text-center font-semibold text-white hover:bg-cranberry-dark"
               >
                 Back to Partiful
@@ -297,7 +297,7 @@ export function BoardView({ initial }: { initial: Board }) {
               type="button"
               onClick={close}
               className={`flex-1 rounded-full py-3.5 font-semibold ${
-                EVENT.partifulUrl ? "border border-line hover:bg-line/40" : "bg-cranberry text-white hover:bg-cranberry-dark"
+                partifulUrl ? "border border-line hover:bg-line/40" : "bg-cranberry text-white hover:bg-cranberry-dark"
               }`}
             >
               Done
