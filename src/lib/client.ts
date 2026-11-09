@@ -1,6 +1,6 @@
 "use client";
 
-import type { Board, Fields, Signup } from "./types";
+import type { Board, Category, Fields, Signup } from "./types";
 
 export class ApiError extends Error {
   constructor(message: string, public status: number, public board?: Board) {
@@ -34,6 +34,12 @@ export const api = {
     }),
   remove: (id: string, auth: Auth) =>
     call<{ board: Board }>(`/api/signups/${id}`, { method: "DELETE", headers: authHeaders(auth) }),
+  saveCategories: (categories: Category[], pin: string) =>
+    call<{ board: Board }>("/api/categories", {
+      method: "PUT",
+      body: JSON.stringify({ categories }),
+      headers: { "x-host-pin": pin },
+    }),
   checkPin: (pin: string) => call<{ ok: true }>("/api/host", { method: "POST", headers: { "x-host-pin": pin } }),
 };
 

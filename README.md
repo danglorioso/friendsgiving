@@ -5,17 +5,17 @@ A live "who's bringing what" board for a potluck. Guests pick a category, write 
 Built to pair with a Partiful invite: link the page from the invite description, and after signing up guests get a one-line answer to paste into the Partiful RSVP question.
 
 - `/`: the guest board
-- `/host`: the host view, behind a PIN. It shows every sign-up with dietary tags and notes, lets you remove any sign-up, and copies a plain-text summary.
+- `/host`: the host view, behind a PIN. It shows every sign-up with dietary tags and notes, lets you remove any sign-up, copies a plain-text summary, and lets you edit the categories (name, emoji, spots, ideas text, order, add and delete) live.
 
 ## Customize
 
-Everything lives in [`src/lib/config.ts`](src/lib/config.ts):
+**Categories** are edited on `/host` → **Edit categories**, and changes go live as soon as you save. Lowering a category's spots never removes anyone; it just stops new sign-ups. Setting spots to 0 closes a category. A category that still has sign-ups can't be deleted until those sign-ups are removed.
+
+Everything else lives in [`src/lib/config.ts`](src/lib/config.ts):
 
 - `EVENT`: title, date, and the note under the header
-- `CATEGORIES`: names, emoji, ideas text and `cap` (spots) for each category
+- `DEFAULT_CATEGORIES`: the starting categories, used until you first save on `/host`. After that, the saved list in the database wins.
 - `TAGS`: dietary tags guests can add
-
-Changing a cap after people sign up is safe. Lowering it never removes anyone; it just stops new sign-ups.
 
 ## Run locally
 
@@ -37,7 +37,7 @@ Production, preview and local dev use separate Redis keys (`fg:<VERCEL_ENV>:*`),
 
 ## How it works
 
-- **Caps are enforced atomically.** The "is there a spot left?" check and the write happen in one Redis Lua script (`PUT_SCRIPT` in `src/lib/store.ts`), so two people grabbing the last spot at the same moment can't both get it. The in-memory store applies the same rules through `decide()`.
+- **Caps are enforced atomically.** Reading the category's current cap, counting, and writing happen in one Redis Lua script (`PUT_SCRIPT` in `src/lib/store.ts`), so two people grabbing the last spot at the same moment can't both get it, and nobody can sign up for a category the host just deleted. Saving categories (`SET_CATEGORIES_SCRIPT`) likewise refuses atomically if it would leave a sign-up without a category. The in-memory store applies the same rules through `decide()` and `decideCategories()`.
 - **No accounts.** Making a sign-up returns a secret that the browser keeps in localStorage. That secret is what lets a guest edit or remove their own sign-up later from the same device. The host can remove anything with the PIN.
 - **Live updates.** The board polls every 8 seconds while the tab is visible.
 

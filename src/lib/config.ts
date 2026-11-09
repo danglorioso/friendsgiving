@@ -1,11 +1,6 @@
 import type { Category } from "./types";
 
-/**
- * Everything a host would want to change lives here. Edit and redeploy.
- *
- * `cap` is how many people can sign up for that category. Lowering it below
- * the number already signed up never removes anyone; it just stops new sign-ups.
- */
+/** Event text. Edit and redeploy. Categories are edited live on /host. */
 export const EVENT = {
   title: "Friendsgiving",
   /** Shown under the title. Leave empty to hide. */
@@ -14,7 +9,14 @@ export const EVENT = {
   note: "We've got the turkey. Pick a category, tell us what you're bringing, and your name goes on the board so nobody doubles up.",
 };
 
-export const CATEGORIES: Category[] = [
+/**
+ * The starting categories, used until the host saves changes on /host. After
+ * that, the saved list in the database wins and edits here no longer show.
+ *
+ * `cap` is how many people can sign up for that category. Lowering it below
+ * the number already signed up never removes anyone; it just stops new sign-ups.
+ */
+export const DEFAULT_CATEGORIES: Category[] = [
   { id: "apps", label: "Appetizers & snacks", emoji: "🧀", cap: 3, hint: "Cheese board, dip, something to graze on" },
   { id: "sides", label: "Savory sides", emoji: "🥔", cap: 6, hint: "Stuffing, mashed potatoes, green beans, mac & cheese" },
   { id: "salads", label: "Salads & veggies", emoji: "🥗", cap: 2, hint: "Something green to balance it out" },
@@ -33,4 +35,9 @@ export const LIMITS = {
   note: 140,
   /** Stops a runaway script from filling the database. */
   totalSignups: 150,
+  categories: 20,
+  categoryLabel: 40,
+  categoryHint: 120,
+  categoryEmoji: 16,
+  cap: 50,
 };

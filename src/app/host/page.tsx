@@ -2,9 +2,10 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Tags } from "@/components/CategoryCard";
+import { CategoryEditor } from "@/components/CategoryEditor";
 import { CopyButton } from "@/components/CopyButton";
 import { ApiError, api } from "@/lib/client";
-import type { Board } from "@/lib/types";
+import type { Board, Category } from "@/lib/types";
 
 const PIN_KEY = "fg:host-pin";
 
@@ -15,6 +16,9 @@ export default function HostPage() {
   const [board, setBoard] = useState<Board | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [confirm, setConfirm] = useState<string | null>(null);
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [editError, setEditError] = useState<string | null>(null);
 
   const unlock = useCallback(async (p: string) => {
     setError(null);
@@ -49,6 +53,21 @@ export default function HostPage() {
       setConfirm(null);
     } catch (e) {
       setError(e instanceof ApiError ? e.message : "Couldn't reach the server.");
+    }
+  }
+
+  async function saveCategories(categories: Category[]) {
+    setSaving(true);
+    setEditError(null);
+    try {
+      const res = await api.saveCategories(categories, pin);
+      setBoard(res.board);
+      setEditing(false);
+    } catch (e) {
+      setEditError(e instanceof ApiError ? e.message : "Couldn't reach the server.");
+      if (e instanceof ApiError && e.board) setBoard(e.board);
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -97,11 +116,23 @@ export default function HostPage() {
         <div>
           <h1 className="font-display text-4xl italic">Host view</h1>
           <p className="mt-1 text-muted">
-            {board.signups.length} sign-ups ·{" "}
+            {board.signups.length} sign-up{board.signups.length === 1 ? "" : "s"} ·{" "}
             {board.categories.filter((c) => c.left === 0).length} of {board.categories.length} categories full
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          {!editing && (
+            <button
+              type="button"
+              onClick={() => {
+                setEditError(null);
+                setEditing(true);
+              }}
+              className="rounded-full bg-ink px-3.5 py-1.5 text-sm font-medium text-paper hover:bg-ink/85"
+            >
+              Edit categories
+            </button>
+          )}
           <button
             type="button"
             onClick={async () => setBoard(await api.board())}
@@ -115,6 +146,21 @@ export default function HostPage() {
 
       {error && <p className="mt-4 rounded-xl bg-cranberry/10 px-3 py-2 text-sm text-cranberry-dark">{error}</p>}
 
+      {editing ? (
+        <section className="mt-8 rounded-3xl border border-line bg-card p-4 sm:p-6">
+          <h2 className="font-display text-2xl">Categories</h2>
+          <p className="mb-4 mt-1 text-sm text-muted">
+            Changes go live for guests as soon as you save. The emoji box takes any emoji.
+          </p>
+          <CategoryEditor
+            categories={board.categories}
+            busy={saving}
+            error={editError}
+            onSave={saveCategories}
+            onCancel={() => setEditing(false)}
+          />
+        </section>
+      ) : (
       <div className="mt-8 space-y-6">
         {board.categories.map((c) => {
           const rows = board.signups.filter((s) => s.category === c.id);
@@ -175,6 +221,7 @@ export default function HostPage() {
           );
         })}
       </div>
+      )}
     </main>
   );
 }

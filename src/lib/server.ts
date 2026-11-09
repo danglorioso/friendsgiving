@@ -35,5 +35,6 @@ export async function ownsSignup(req: Request, store: Store, id: string) {
 }
 
 export async function board(store: Store) {
-  return buildBoard(await store.list(), store.persistent);
+  const [signups, categories] = await Promise.all([store.list(), store.categories()]);
+  return buildBoard(signups, categories, store.persistent);
 }

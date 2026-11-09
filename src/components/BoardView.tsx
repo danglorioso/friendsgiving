@@ -185,7 +185,7 @@ export function BoardView({ initial, partifulUrl }: { initial: Board; partifulUr
                 >
                   Edit
                 </button>
-                <CopyButton text={rsvpLine(s)} label="Copy for Partiful" className="!border-white/20 !bg-transparent text-paper" />
+                <CopyButton text={rsvpLine(s, board.categories)} label="Copy for Partiful" className="!border-white/20 !bg-transparent text-paper" />
               </li>
             ))}
           </ul>
@@ -281,8 +281,8 @@ export function BoardView({ initial, partifulUrl }: { initial: Board; partifulUr
             Last step: paste this as your answer to the dish question on your Partiful RSVP, so the hosts have it there too.
           </p>
           <div className="mt-4 flex items-center gap-3 rounded-2xl border border-line bg-paper px-4 py-3">
-            <p className="min-w-0 flex-1 font-medium">{rsvpLine(mode.signup)}</p>
-            <CopyButton text={rsvpLine(mode.signup)} />
+            <p className="min-w-0 flex-1 font-medium">{rsvpLine(mode.signup, board.categories)}</p>
+            <CopyButton text={rsvpLine(mode.signup, board.categories)} />
           </div>
           <div className="mt-6 flex flex-col gap-2 sm:flex-row-reverse">
             {partifulUrl ? (
