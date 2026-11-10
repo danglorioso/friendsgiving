@@ -81,7 +81,7 @@ export function CategoryCard({
               <span className="flex h-5 w-5 items-center justify-center rounded-full border border-dashed border-muted/60 text-xs group-hover:border-squash group-hover:text-squash">
                 +
               </span>
-              Open spot
+              {i === 0 ? <span className="font-semibold text-cranberry">Claim this spot</span> : "Open spot"}
             </button>
           </li>
         ))}

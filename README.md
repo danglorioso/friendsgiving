@@ -2,9 +2,15 @@
 
 A live "who's bringing what" board for a potluck. Guests pick a category, write their dish, and see everyone else's choices right away. Each category has a cap, so nobody ends up with five bottles of wine and no sides.
 
-Built to pair with a Partiful invite: link the page from the invite description, and after signing up guests get a one-line answer to paste into the Partiful RSVP question.
+Built to pair with a Partiful invite. Put the link in a Partiful RSVP questionnaire question ("Sign up for a dish here, then paste what you're bringing below"). Guests land on a short guided flow:
 
-- `/`: the guest board
+1. **Pick a category**, seeing every category with who's bringing what and how many spots are open.
+2. **Add your dish**, with that category's existing dishes in view so nobody doubles up.
+3. **Finish on Partiful**: a one-line answer to copy into the RSVP question and a "Back to Partiful" button. The app stores no Partiful URL; the button uses the browser's back (same tab) or closes the tab (new tab), and otherwise tells guests to switch back to Partiful.
+
+Guests who already signed up on that device land straight on step 3, where they can edit or remove their dish.
+
+- `/`: the guest flow
 - `/host`: the host view, behind a PIN. It shows every sign-up with dietary tags and notes, lets you remove any sign-up, copies a plain-text summary, and lets you edit the categories (name, emoji, spots, ideas text, order, add and delete) live.
 
 ## Customize
