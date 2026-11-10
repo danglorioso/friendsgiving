@@ -14,7 +14,7 @@ type Mode = { kind: "new"; category: string } | { kind: "edit"; signup: Signup }
 
 const POLL_MS = 8000;
 
-export function BoardView({ initial, partifulUrl }: { initial: Board; partifulUrl: string }) {
+export function BoardView({ initial }: { initial: Board }) {
   const [board, setBoard] = useState(initial);
   const [mine, setMine] = useState<Record<string, string>>({});
   const [name, setName] = useState("");
@@ -214,16 +214,6 @@ export function BoardView({ initial, partifulUrl }: { initial: Board; partifulUr
         ))}
       </div>
 
-      {partifulUrl && (
-        <p className="mt-12 text-center text-sm text-muted">
-          RSVP and event details are on{" "}
-          <a href={partifulUrl} className="font-semibold text-cranberry underline underline-offset-4">
-            Partiful
-          </a>
-          .
-        </p>
-      )}
-
       {mode?.kind === "new" && (
         <Sheet title="Claim a spot" onClose={close}>
           <SignupForm
@@ -284,25 +274,13 @@ export function BoardView({ initial, partifulUrl }: { initial: Board; partifulUr
             <p className="min-w-0 flex-1 font-medium">{rsvpLine(mode.signup, board.categories)}</p>
             <CopyButton text={rsvpLine(mode.signup, board.categories)} />
           </div>
-          <div className="mt-6 flex flex-col gap-2 sm:flex-row-reverse">
-            {partifulUrl ? (
-              <a
-                href={partifulUrl}
-                className="flex-1 rounded-full bg-cranberry py-3.5 text-center font-semibold text-white hover:bg-cranberry-dark"
-              >
-                Back to Partiful
-              </a>
-            ) : null}
-            <button
-              type="button"
-              onClick={close}
-              className={`flex-1 rounded-full py-3.5 font-semibold ${
-                partifulUrl ? "border border-line hover:bg-line/40" : "bg-cranberry text-white hover:bg-cranberry-dark"
-              }`}
-            >
-              Done
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={close}
+            className="mt-6 w-full rounded-full bg-cranberry py-3.5 font-semibold text-white hover:bg-cranberry-dark"
+          >
+            Done
+          </button>
           <p className="mt-4 text-center text-xs text-muted">
             You can edit or remove it from this page on this device anytime.
           </p>
